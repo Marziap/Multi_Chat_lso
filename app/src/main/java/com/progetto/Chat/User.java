@@ -376,7 +376,6 @@ public class User {
             e.printStackTrace();
         }
 
-        // Ottenere il valore dalla variabile answer
         String registerResult = answer.get();
         return registerResult;
     }
