@@ -54,7 +54,7 @@ public class StanzeActivity extends AppCompatActivity implements Serializable {
 
 
                 LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(widthInPixels, heightInPixels);
-                params.setMargins(40, 35, 40, 0); // Set margins (top, left, right, bottom)
+                params.setMargins(40, 35, 40, 0);
                 button.setLayoutParams(params);
 
 
@@ -63,9 +63,6 @@ public class StanzeActivity extends AppCompatActivity implements Serializable {
                     public void onClick(View view) {
                         Integer room_id = userSingleton.getRoomId(text);
                         String isdentroRoom = userSingleton.isInRoom(user_id, room_id);
-
-
-                        //se hai accesso apri chat
 
                         String parametro = text;
 
