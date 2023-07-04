@@ -11,6 +11,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
@@ -102,25 +103,30 @@ public class CreaChatActivity extends AppCompatActivity {
 
                 Integer id = userSingleton.getId(userSingleton.getUsername()); // Pass the UserSingleton instance
 
-                System.out.println("ID: " + id);
+                if(!inputText.isEmpty()){
+                    System.out.println("ID: " + id);
 
-                String risposta = userSingleton.creaStanza(inputText, id);
+                    String risposta = userSingleton.creaStanza(inputText, id);
 
-                if(risposta.equals(inputText)){
+                    if(risposta.equals(inputText)){
 
-                    Integer room_id = userSingleton.getRoomId(inputText);
-                    System.out.println("room_id "+room_id);
+                        Integer room_id = userSingleton.getRoomId(inputText);
+                        System.out.println("room_id "+room_id);
 
-                    for (String el : selectedTexts){
-                        System.out.println("Selezionato "+el);
-                        Integer user_id = userSingleton.getId(el);
-                        System.out.println("user_id "+user_id);
-                        userSingleton.addToStanza(user_id, room_id);
+                        for (String el : selectedTexts){
+                            System.out.println("Selezionato "+el);
+                            Integer user_id = userSingleton.getId(el);
+                            System.out.println("user_id "+user_id);
+                            userSingleton.addToStanza(user_id, room_id);
+                        }
+                        userSingleton.addToStanza(userSingleton.getId(userSingleton.getUsername()), room_id);
                     }
-                    userSingleton.addToStanza(userSingleton.getId(userSingleton.getUsername()), room_id);
+                    //insert in db
+                    Toast.makeText(getApplicationContext(), "Chat creata con successo!", Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(CreaChatActivity.this, StanzeActivity.class));
+                }else{
+                    Toast.makeText(getApplicationContext(), "Inserisci un nome!", Toast.LENGTH_SHORT).show();
                 }
-                //insert in db
-                startActivity(new Intent(CreaChatActivity.this, StanzeActivity.class));
             }
         });
 

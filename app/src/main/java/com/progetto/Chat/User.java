@@ -10,7 +10,7 @@ public class User {
 
     private String username;
 
-    private transient Connessione conn = new Connessione("192.168.1.59", 5555);
+    private transient Connessione conn = new Connessione("34.216.126.180", 5555);
     private String password;
 
     public User(String username, String password){
@@ -20,7 +20,7 @@ public class User {
 
     public String login(User user) {
         AtomicReference<String> answer = new AtomicReference<>();
-        new Thread(() -> {
+        Thread loginThread = new Thread(() -> {
             conn.connect();
             conn.send("1%"+user.username+"%"+user.password);
             String response = conn.receive();
@@ -32,10 +32,12 @@ public class User {
                 answer.set("no");
             }
 
-        }).start();
+        });
+
+        loginThread.start();
 
         try {
-            Thread.sleep(250);  // Puoi regolare il tempo di attesa come necessario
+            loginThread.join();  // Attendere che il thread di login termini
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -43,27 +45,28 @@ public class User {
         // Ottenere il valore dalla variabile answer
         String loginResult = answer.get();
         return loginResult;
-
     }
+
 
     public String isInRoom(int user_id, int room_id) {
         AtomicReference<String> answer = new AtomicReference<>();
-        new Thread(() -> {
+        Thread isInRoomThread = new Thread(() -> {
             conn.connect();
             conn.send("13%"+user_id+"%"+room_id+"%");
             String response = conn.receive();
             conn.closeConnection();
 
-            if (!response.isEmpty()) {
-                answer.set("free");
-            } else {
+            if (response.isEmpty()) {
                 answer.set("locked");
+            } else {
+                answer.set("free");
             }
+        });
 
-        }).start();
+        isInRoomThread.start();
 
         try {
-            Thread.sleep(250);  // Puoi regolare il tempo di attesa come necessario
+            isInRoomThread.join();  // Attendere che il thread di login termini
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -77,7 +80,7 @@ public class User {
 
     public Integer getId(String username) {
         AtomicReference<Integer> answer = new AtomicReference<>();
-        new Thread(() -> {
+        Thread getIdThread = new Thread(() -> {
             conn.connect();
             conn.send("0%" + username + "%");
             Integer response = conn.receiveInt();
@@ -90,13 +93,16 @@ public class User {
                 answer.set(0);
             }
 
-        }).start();
+        });
+
+        getIdThread.start();
 
         try {
-            Thread.sleep(250);
+            getIdThread.join();  // Attendere che il thread di login termini
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+
 
         Integer idResult = answer.get();
         return idResult;
@@ -104,7 +110,7 @@ public class User {
 
     public Integer getRoomId(String name) {
         AtomicReference<Integer> answer = new AtomicReference<>();
-        new Thread(() -> {
+        Thread getRoomIdThread = new Thread(() -> {
             conn.connect();
             conn.send("12%" + name + "%");
             Integer response = conn.receiveInt();
@@ -117,10 +123,12 @@ public class User {
                 answer.set(0);
             }
 
-        }).start();
+        });
+
+        getRoomIdThread.start();
 
         try {
-            Thread.sleep(250);
+            getRoomIdThread.join();  // Attendere che il thread di login termini
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -134,7 +142,7 @@ public class User {
 
     public String registra(User user){
         AtomicReference<String> answer = new AtomicReference<>();
-        new Thread(() -> {
+        Thread registraThread = new Thread(() -> {
             Log.d("before connect", "ok");
         conn.connect();
             Log.d("after connect", "ok");
@@ -148,10 +156,12 @@ public class User {
                 answer.set("no");
             }
 
-        }).start();
+        });
+
+        registraThread.start();
 
         try {
-            Thread.sleep(250);  // Puoi regolare il tempo di attesa come necessario
+            registraThread.join();  // Attendere che il thread di login termini
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -164,7 +174,7 @@ public class User {
 
     public String addToStanza(int user_id, int room_id){
         AtomicReference<String> answer = new AtomicReference<>();
-        new Thread(() -> {
+        Thread addToStanzaThread = new Thread(() -> {
             Log.d("before connect", "ok");
             conn.connect();
             Log.d("after connect", "ok");
@@ -178,10 +188,12 @@ public class User {
                 answer.set("no");
             }
 
-        }).start();
+        });
+
+        addToStanzaThread.start();
 
         try {
-            Thread.sleep(250);  // Puoi regolare il tempo di attesa come necessario
+            addToStanzaThread.join();  // Attendere che il thread di login termini
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -201,7 +213,7 @@ public class User {
 
     public ArrayList<String> getAllStanze() {
         ArrayList<String> roomList = new ArrayList<>();
-        new Thread(() -> {
+        Thread getAllStanzeThread = new Thread(() -> {
             conn.connect();
             conn.send("4");
             String response = conn.receive();
@@ -217,10 +229,12 @@ public class User {
                 // In caso di risposta null, impostare l'ArrayList come vuoto
                 roomList.clear();
             }
-        }).start();
+        });
+
+        getAllStanzeThread.start();
 
         try {
-            Thread.sleep(250);  // Puoi regolare il tempo di attesa come necessario
+            getAllStanzeThread.join();  // Attendere che il thread di login termini
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -232,7 +246,7 @@ public class User {
 
     public ArrayList<String> getWaitList(int ammi_id){ //SELECT name FROM waitlist JOIN rooms ON waitlist.room_id = rooms.id WHERE rooms.ammi_id = 1;
         ArrayList<String> messaggi = new ArrayList<>();
-        new Thread(() -> {
+        Thread getWaitlistThread = new Thread(() -> {
             conn.connect();
             conn.send("8%"+ammi_id);
             String response = conn.receive();
@@ -250,10 +264,12 @@ public class User {
                 // In caso di risposta null, impostare l'ArrayList come vuoto
                 messaggi.clear();
             }
-        }).start();
+        });
+
+        getWaitlistThread.start();
 
         try {
-            Thread.sleep(250);  // Puoi regolare il tempo di attesa come necessario
+            getWaitlistThread.join();  // Attendere che il thread di login termini
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -264,7 +280,7 @@ public class User {
 
     public String sendRequest(int user_id, int room_id){
         AtomicReference<String> answer = new AtomicReference<>();
-        new Thread(() -> {
+        Thread sendRequestThread = new Thread(() -> {
             Log.d("before connect", "ok");
             conn.connect();
             Log.d("after connect", "ok");
@@ -278,10 +294,12 @@ public class User {
                 answer.set("no");
             }
 
-        }).start();
+        });
+
+        sendRequestThread.start();
 
         try {
-            Thread.sleep(250);  // Puoi regolare il tempo di attesa come necessario
+            sendRequestThread.join();  // Attendere che il thread di login termini
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -293,7 +311,7 @@ public class User {
 
     public String declineRequest(int user_id, int room_id) {
         AtomicReference<String> answer = new AtomicReference<>();
-        new Thread(() -> {
+        Thread declineRequestThread = new Thread(() -> {
             Log.d("before connect", "ok");
             conn.connect();
             Log.d("after connect", "ok");
@@ -309,10 +327,12 @@ public class User {
             } else {
                 answer.set("no");
             }
-        }).start();
+        });
+
+        declineRequestThread.start();
 
         try {
-            Thread.sleep(250);
+            declineRequestThread.join();  // Attendere che il thread di login termini
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -323,7 +343,7 @@ public class User {
 
     public String acceptRequest(int user_id, int room_id) {
         AtomicReference<String> answer = new AtomicReference<>();
-        new Thread(() -> {
+        Thread acceptRequestThread = new Thread(() -> {
             Log.d("before connect", "ok");
             conn.connect();
             Log.d("after connect", "ok");
@@ -339,10 +359,12 @@ public class User {
             } else {
                 answer.set("no");
             }
-        }).start();
+        });
+
+        acceptRequestThread.start();
 
         try {
-            Thread.sleep(250);
+            acceptRequestThread.join();  // Attendere che il thread di login termini
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -354,7 +376,7 @@ public class User {
 
     public String creaStanza(String nome, int ammi_id){
         AtomicReference<String> answer = new AtomicReference<>();
-        new Thread(() -> {
+        Thread creaStanzaThread = new Thread(() -> {
             Log.d("before connect", "ok");
             conn.connect();
             Log.d("after connect", "ok");
@@ -368,10 +390,12 @@ public class User {
                 answer.set("no");
             }
 
-        }).start();
+        });
+
+        creaStanzaThread.start();
 
         try {
-            Thread.sleep(250);  // Puoi regolare il tempo di attesa come necessario
+            creaStanzaThread.join();  // Attendere che il thread di login termini
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -382,7 +406,7 @@ public class User {
 
     public ArrayList<String> getMessages(int room_id) {
         ArrayList<String> messaggi = new ArrayList<>();
-        new Thread(() -> {
+        Thread getMessagesThread = new Thread(() -> {
             conn.connect();
             conn.send("9%"+room_id);
             String response = conn.receive();
@@ -400,10 +424,12 @@ public class User {
                 // In caso di risposta null, impostare l'ArrayList come vuoto
                 messaggi.clear();
             }
-        }).start();
+        });
+
+        getMessagesThread.start();
 
         try {
-            Thread.sleep(250);  // Puoi regolare il tempo di attesa come necessario
+            getMessagesThread.join();  // Attendere che il thread di login termini
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -415,7 +441,7 @@ public class User {
 
     public ArrayList<String> getUsers(){
         ArrayList<String> users = new ArrayList<>();
-        new Thread(() -> {
+        Thread getUsersThread = new Thread(() -> {
             conn.connect();
             conn.send("10");
             String response = conn.receive();
@@ -431,10 +457,12 @@ public class User {
                 // In caso di risposta null, impostare l'ArrayList come vuoto
                 users.clear();
             }
-        }).start();
+        });
+
+        getUsersThread.start();
 
         try {
-            Thread.sleep(250);  // Puoi regolare il tempo di attesa come necessario
+            getUsersThread.join();  // Attendere che il thread di login termini
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -445,7 +473,7 @@ public class User {
 
     public String sendMessages(int user_id, int room_id, String message){
         AtomicReference<String> answer = new AtomicReference<>();
-        new Thread(() -> {
+        Thread sendMessagesThread = new Thread(() -> {
             Log.d("before connect", "ok");
             conn.connect();
             Log.d("after connect", "ok");
@@ -459,10 +487,12 @@ public class User {
                 answer.set("no");
             }
 
-        }).start();
+        });
+
+        sendMessagesThread.start();
 
         try {
-            Thread.sleep(250);  // Puoi regolare il tempo di attesa come necessario
+            sendMessagesThread.join();  // Attendere che il thread di login termini
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

@@ -27,16 +27,22 @@ public class MainActivity extends AppCompatActivity {
                 String username = input_username.getText().toString();
                 EditText input_password = findViewById(R.id.txtinptPassword);
                 String password = input_password.getText().toString();
-                User user = new User(username, password);
-                userSingleton.setUser(user);
-                String loginResult = userSingleton.login(user);
 
-                if(loginResult.equals("ok")){
-                    Intent intent = new Intent(MainActivity.this, StanzeActivity.class);
-                    startActivity(intent);
+                if(!username.isEmpty() && !password.isEmpty()){
+                    User user = new User(username, password);
+                    userSingleton.setUser(user);
+                    String loginResult = userSingleton.login(user);
+
+                    if(loginResult.equals("ok")){
+                        Intent intent = new Intent(MainActivity.this, StanzeActivity.class);
+                        startActivity(intent);
+                    }else{
+                        Toast.makeText(getApplicationContext(), "Credenziali sbagliate", Toast.LENGTH_SHORT).show();
+                    }
                 }else{
-                    Toast.makeText(getApplicationContext(), "Credenziali sbagliate", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Inserisci username e password!", Toast.LENGTH_SHORT).show();
                 }
+
             }
         });
 
@@ -49,14 +55,18 @@ public class MainActivity extends AppCompatActivity {
                 EditText input_password = findViewById(R.id.txtinptPassword);
                 String password = input_password.getText().toString();
 
-                User user = new User(username, password);
-                userSingleton.setUser(user);
-                String registraResult = userSingleton.registra(user);
+                if(!username.isEmpty() && !password.isEmpty()){
+                    User user = new User(username, password);
+                    userSingleton.setUser(user);
+                    String registraResult = userSingleton.registra(user);
 
-                if(registraResult.equals("ok")){
-                    Toast.makeText(getApplicationContext(), "Registrazione ok! Fai Accesso", Toast.LENGTH_SHORT).show();
+                    if(registraResult.equals("ok")){
+                        Toast.makeText(getApplicationContext(), "Registrazione ok! Fai Accesso", Toast.LENGTH_SHORT).show();
+                    }else{
+                        Toast.makeText(getApplicationContext(), "C'è stato un problema", Toast.LENGTH_SHORT).show();
+                    }
                 }else{
-                    Toast.makeText(getApplicationContext(), "C'è stato un problema", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Inserisci username e password!", Toast.LENGTH_SHORT).show();
                 }
             }
         });
