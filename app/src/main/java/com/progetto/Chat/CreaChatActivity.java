@@ -43,7 +43,7 @@ public class CreaChatActivity extends AppCompatActivity {
                 button.setText(text);
                 button.setBackgroundResource(R.drawable.button_corner_radius_blue);
                 button.setTextColor(ContextCompat.getColor(this, R.color.black));
-                button.setTextSize(30); // Set text size
+                button.setTextSize(30);
                 button.setGravity(Gravity.START | Gravity.CENTER_VERTICAL);
                 LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                         LinearLayout.LayoutParams.MATCH_PARENT,
@@ -99,9 +99,9 @@ public class CreaChatActivity extends AppCompatActivity {
                 EditText textInput = findViewById(R.id.txtinptNomeChat);
                 String inputText = textInput.getText().toString();
 
-                UserSingleton userSingleton = UserSingleton.getInstance(); // Get the UserSingleton instance
+                UserSingleton userSingleton = UserSingleton.getInstance();
 
-                Integer id = userSingleton.getId(userSingleton.getUsername()); // Pass the UserSingleton instance
+                Integer id = userSingleton.getId(userSingleton.getUsername());
 
                 if(!inputText.isEmpty()){
                     System.out.println("ID: " + id);

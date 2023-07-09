@@ -10,7 +10,7 @@ public class User {
 
     private String username;
 
-    private transient Connessione conn = new Connessione("34.216.126.180", 5555);
+    private Connessione conn = new Connessione("35.93.152.29", 5555);
     private String password;
 
     public User(String username, String password){
@@ -37,12 +37,10 @@ public class User {
         loginThread.start();
 
         try {
-            loginThread.join();  // Attendere che il thread di login termini
+            loginThread.join();  // Attende che il thread termini
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
-        // Ottenere il valore dalla variabile answer
         String loginResult = answer.get();
         return loginResult;
     }
@@ -66,12 +64,10 @@ public class User {
         isInRoomThread.start();
 
         try {
-            isInRoomThread.join();  // Attendere che il thread di login termini
+            isInRoomThread.join();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
-        // Ottenere il valore dalla variabile answer
         String loginResult = answer.get();
         return loginResult;
 
@@ -87,7 +83,7 @@ public class User {
             conn.closeConnection();
 
             if (response != null) {
-                int id = response; // Parse the string response to an int
+                int id = response;
                 answer.set(id);
             } else {
                 answer.set(0);
@@ -98,7 +94,7 @@ public class User {
         getIdThread.start();
 
         try {
-            getIdThread.join();  // Attendere che il thread di login termini
+            getIdThread.join();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -117,7 +113,7 @@ public class User {
             conn.closeConnection();
 
             if (response != null) {
-                int id = response; // Parse the string response to an int
+                int id = response;
                 answer.set(id);
             } else {
                 answer.set(0);
@@ -128,7 +124,7 @@ public class User {
         getRoomIdThread.start();
 
         try {
-            getRoomIdThread.join();  // Attendere che il thread di login termini
+            getRoomIdThread.join();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -138,14 +134,10 @@ public class User {
     }
 
 
-
-
     public String registra(User user){
         AtomicReference<String> answer = new AtomicReference<>();
         Thread registraThread = new Thread(() -> {
-            Log.d("before connect", "ok");
         conn.connect();
-            Log.d("after connect", "ok");
         conn.send("2%"+user.username+"%"+user.password);
         String response = conn.receive();
         conn.closeConnection();
@@ -161,12 +153,11 @@ public class User {
         registraThread.start();
 
         try {
-            registraThread.join();  // Attendere che il thread di login termini
+            registraThread.join();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
 
-        // Ottenere il valore dalla variabile answer
         String registerResult = answer.get();
         return registerResult;
     }
@@ -175,9 +166,7 @@ public class User {
     public String addToStanza(int user_id, int room_id){
         AtomicReference<String> answer = new AtomicReference<>();
         Thread addToStanzaThread = new Thread(() -> {
-            Log.d("before connect", "ok");
             conn.connect();
-            Log.d("after connect", "ok");
             conn.send("11%"+user_id+"%"+room_id);
             String response = conn.receive();
             conn.closeConnection();
@@ -193,23 +182,14 @@ public class User {
         addToStanzaThread.start();
 
         try {
-            addToStanzaThread.join();  // Attendere che il thread di login termini
+            addToStanzaThread.join();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
-        // Ottenere il valore dalla variabile answer
         String registerResult = answer.get();
         return registerResult;
     }
 
-    public String getMieStanze(int user_id){ //SELECT name FROM users_in_rooms JOIN rooms ON users_in_rooms.room_id = rooms.id WHERE users_in_rooms.user_id = 2;
-        conn.connect();
-        conn.send("3%"+user_id);
-        String answer = conn.receive();
-        conn.closeConnection();
-        return answer;
-    }
 
     public ArrayList<String> getAllStanze() {
         ArrayList<String> roomList = new ArrayList<>();
@@ -220,7 +200,6 @@ public class User {
             conn.closeConnection();
 
             if (response != null) {
-                System.out.println("Risposta: " + response);
                 // Separare la stringa in elementi usando il separatore "@" stanza1@stanza2@stanza3
                 String[] rooms = response.split("@");
                 // Aggiungere gli elementi all'ArrayList
@@ -230,21 +209,16 @@ public class User {
                 roomList.clear();
             }
         });
-
         getAllStanzeThread.start();
-
         try {
-            getAllStanzeThread.join();  // Attendere che il thread di login termini
+            getAllStanzeThread.join();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
-        // Ritornare l'ArrayList contenente i risultati
         return roomList;
     }
 
-
-    public ArrayList<String> getWaitList(int ammi_id){ //SELECT name FROM waitlist JOIN rooms ON waitlist.room_id = rooms.id WHERE rooms.ammi_id = 1;
+    public ArrayList<String> getWaitList(int ammi_id){
         ArrayList<String> messaggi = new ArrayList<>();
         Thread getWaitlistThread = new Thread(() -> {
             conn.connect();
@@ -253,7 +227,6 @@ public class User {
             conn.closeConnection();
 
             if (response != null) {
-                System.out.println("Risposta: " + response);
                 // Separare la stringa in elementi usando il separatore "@"
                 String[] rooms = response.split("@");
                 // Aggiungere gli elementi all'ArrayList dopo aver sostituito '&' con ':'
@@ -261,7 +234,6 @@ public class User {
                     messaggi.add(room.replaceAll("&", ": "));
                 }
             } else {
-                // In caso di risposta null, impostare l'ArrayList come vuoto
                 messaggi.clear();
             }
         });
@@ -281,9 +253,7 @@ public class User {
     public String sendRequest(int user_id, int room_id){
         AtomicReference<String> answer = new AtomicReference<>();
         Thread sendRequestThread = new Thread(() -> {
-            Log.d("before connect", "ok");
             conn.connect();
-            Log.d("after connect", "ok");
             conn.send("6%"+user_id+"%"+room_id);
             String response = conn.receive();
             conn.closeConnection();
@@ -312,12 +282,7 @@ public class User {
     public String declineRequest(int user_id, int room_id) {
         AtomicReference<String> answer = new AtomicReference<>();
         Thread declineRequestThread = new Thread(() -> {
-            Log.d("before connect", "ok");
             conn.connect();
-            Log.d("after connect", "ok");
-
-            // Replace occurrences of ": " with "%"
-
             conn.send("14%" + user_id + "%" + room_id + "%");
             String response = conn.receive();
             conn.closeConnection();
@@ -332,7 +297,7 @@ public class User {
         declineRequestThread.start();
 
         try {
-            declineRequestThread.join();  // Attendere che il thread di login termini
+            declineRequestThread.join();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -344,12 +309,7 @@ public class User {
     public String acceptRequest(int user_id, int room_id) {
         AtomicReference<String> answer = new AtomicReference<>();
         Thread acceptRequestThread = new Thread(() -> {
-            Log.d("before connect", "ok");
             conn.connect();
-            Log.d("after connect", "ok");
-
-            // Replace occurrences of ": " with "%"
-
             conn.send("15%" + user_id + "%" + room_id + "%");
             String response = conn.receive();
             conn.closeConnection();
@@ -364,7 +324,7 @@ public class User {
         acceptRequestThread.start();
 
         try {
-            acceptRequestThread.join();  // Attendere che il thread di login termini
+            acceptRequestThread.join();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -377,9 +337,7 @@ public class User {
     public String creaStanza(String nome, int ammi_id){
         AtomicReference<String> answer = new AtomicReference<>();
         Thread creaStanzaThread = new Thread(() -> {
-            Log.d("before connect", "ok");
             conn.connect();
-            Log.d("after connect", "ok");
             conn.send("7%"+nome+"%"+ammi_id);
             String response = conn.receive();
             conn.closeConnection();
@@ -395,7 +353,7 @@ public class User {
         creaStanzaThread.start();
 
         try {
-            creaStanzaThread.join();  // Attendere che il thread di login termini
+            creaStanzaThread.join();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -413,7 +371,6 @@ public class User {
             conn.closeConnection();
 
             if (response != null) {
-                System.out.println("Risposta: " + response);
                 // Separare la stringa in elementi usando il separatore "@"
                 String[] rooms = response.split("@");
                 // Aggiungere gli elementi all'ArrayList dopo aver sostituito '&' con ':'
@@ -421,7 +378,6 @@ public class User {
                     messaggi.add(room.replaceAll("&", ": "));
                 }
             } else {
-                // In caso di risposta null, impostare l'ArrayList come vuoto
                 messaggi.clear();
             }
         });
@@ -429,15 +385,12 @@ public class User {
         getMessagesThread.start();
 
         try {
-            getMessagesThread.join();  // Attendere che il thread di login termini
+            getMessagesThread.join();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
-        // Ritornare l'ArrayList contenente i risultati
         return messaggi;
     }
-
 
     public ArrayList<String> getUsers(){
         ArrayList<String> users = new ArrayList<>();
@@ -448,13 +401,11 @@ public class User {
             conn.closeConnection();
 
             if (response != null) {
-                System.out.println("Risposta: " + response);
                 // Separare la stringa in elementi usando il separatore "@"
                 String[] utenti = response.split("@");
                 // Aggiungere gli elementi all'ArrayList
                 Collections.addAll(users, utenti);
             } else {
-                // In caso di risposta null, impostare l'ArrayList come vuoto
                 users.clear();
             }
         });
@@ -462,21 +413,17 @@ public class User {
         getUsersThread.start();
 
         try {
-            getUsersThread.join();  // Attendere che il thread di login termini
+            getUsersThread.join();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
-        // Ritornare l'ArrayList contenente i risultati
         return users;
     }
 
     public String sendMessages(int user_id, int room_id, String message){
         AtomicReference<String> answer = new AtomicReference<>();
         Thread sendMessagesThread = new Thread(() -> {
-            Log.d("before connect", "ok");
             conn.connect();
-            Log.d("after connect", "ok");
             conn.send("5%"+user_id+"%"+room_id+"%"+message+"%");
             String response = conn.receive();
             conn.closeConnection();
@@ -492,12 +439,11 @@ public class User {
         sendMessagesThread.start();
 
         try {
-            sendMessagesThread.join();  // Attendere che il thread di login termini
+            sendMessagesThread.join();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
 
-        // Ottenere il valore dalla variabile answer
         String registerResult = answer.get();
         return registerResult;
     }

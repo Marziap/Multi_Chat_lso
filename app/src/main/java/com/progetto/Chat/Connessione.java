@@ -34,19 +34,13 @@ public class Connessione{
     }
 
     public void send(String dataToSend) {
-        // Send the data
         writer.println(dataToSend);
     }
 
     public String receive() {
         String response = null;
         try {
-            // Read the response
-            Log.d("before response", "ok");
             response = reader.readLine();
-            Log.d("after response", "ok");
-            // Print the response
-            System.out.println("Response from server: " + response);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -56,15 +50,8 @@ public class Connessione{
     public Integer receiveInt() {
         Integer response = null;
         try {
-            // Read the response
-            Log.d("before response", "ok");
             String responseString = reader.readLine();
-            Log.d("after response", "ok");
-            // Print the response
-            System.out.println("Response from server: " + responseString);
-            // Check if the response string is empty
             if (!responseString.isEmpty()) {
-                // Convert the response string to an integer
                 response = Integer.parseInt(responseString);
             }
         } catch (IOException e) {

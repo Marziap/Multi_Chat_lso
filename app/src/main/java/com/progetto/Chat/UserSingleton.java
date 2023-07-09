@@ -66,13 +66,6 @@ public class UserSingleton {
         }
     }
 
-    public String getMieStanze(int user_id) {
-        if (user != null) {
-            return user.getMieStanze(user_id);
-        } else {
-            return "User object is null";
-        }
-    }
 
     public ArrayList<String> getAllStanze() {
             return user.getAllStanze();
