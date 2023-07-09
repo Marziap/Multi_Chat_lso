@@ -13,6 +13,6 @@ Al momento il server si trova su un'istanza di AWS EC2 spenta (per rientrare nel
 5. Fare build del progetto in android studio e far partire l'emulatore
 
 ### Figma
-Clicca [qui]([https://www.figma.com/file/M0RoN6CjIb358u1pV8Ur6L/ChatLSO?type=design&node-id=0%3A1&mode=design&t=CjQleUoEpKAEMq9a-1](https://www.figma.com/proto/M0RoN6CjIb358u1pV8Ur6L/ChatLSO?type=design&node-id=1-15&t=Sk2jqIoSamdAoyh6-0&scaling=scale-down&page-id=0%3A1&starting-point-node-id=130%3A953)https://www.figma.com/proto/M0RoN6CjIb358u1pV8Ur6L/ChatLSO?type=design&node-id=1-15&t=Sk2jqIoSamdAoyh6-0&scaling=scale-down&page-id=0%3A1&starting-point-node-id=130%3A953) per vedere il prototipo in Figma
+Clicca [qui](https://www.figma.com/proto/M0RoN6CjIb358u1pV8Ur6L?page-id=0%3A1&type=design&node-id=0-1&t=CjQleUoEpKAEMq9a-0&scaling=scale-down&starting-point-node-id=130%3A953) per vedere il prototipo in Figma
 
 :)
