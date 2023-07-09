@@ -9,7 +9,7 @@ Al momento il server si trova su un'istanza di AWS EC2 spenta (per rientrare nel
 3. Avviare il server attraverso il comando "./server"
 
 ### Client
-4. Nel client android studio, nella classe User cambiare il campo host della connessione dall'indirizzo dell'istanza EC2 a "localhost"
+4. Nel client android studio, nella classe User (riga 13) cambiare il campo host della connessione dall'indirizzo dell'istanza EC2 a "localhost"
 5. Fare build del progetto in android studio e far partire l'emulatore
 
 :)
