@@ -12,4 +12,7 @@ Al momento il server si trova su un'istanza di AWS EC2 spenta (per rientrare nel
 4. Nel client android studio, nella classe User (riga 13) cambiare il campo host della connessione dall'indirizzo dell'istanza EC2 a "localhost"
 5. Fare build del progetto in android studio e far partire l'emulatore
 
+### Figma
+Clicca [qui](https://www.figma.com/file/M0RoN6CjIb358u1pV8Ur6L/ChatLSO?type=design&node-id=0%3A1&mode=design&t=CjQleUoEpKAEMq9a-1) per vedere il prototipo in Figma
+
 :)
