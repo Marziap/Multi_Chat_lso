@@ -10,7 +10,7 @@ public class User {
 
     private String username;
 
-    private Connessione conn = new Connessione("35.93.152.29", 5555);
+    private Connessione conn = new Connessione("35.165.11.95", 5555);
     private String password;
 
     public User(String username, String password){
