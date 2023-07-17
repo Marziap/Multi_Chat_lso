@@ -10,7 +10,7 @@
 #include <sys/wait.h>
 
 #define PORT 5555
-#define BACKLOG 5
+#define BACKLOG 100
 #define SIZE 5000
 #define DB_HOST "ls-0c0324022fc57bdfe683e66d46fc414415d15cb0.cngbiakr7x0v.eu-central-1.rds.amazonaws.com"
 #define DB_PORT "5432"
@@ -68,7 +68,7 @@ void printQueryResults(PGresult *result, int clientSocket)
 
     fflush(stdout);
     strcat(buffer, "\n");
-    printf("\nDa inviare al client: %s", buffer);
+//    printf("\nDa inviare al client: %s", buffer);
     send(clientSocket, buffer, strlen(buffer), 0);
 }
 
@@ -119,7 +119,7 @@ char query[SIZE];
 void getRoomId(PGconn *conn, int clientSocket, char * name)
 {
 char query[SIZE];
-printf("room_name: |%s|", name);
+//printf("room_name: |%s|", name);
  snprintf(query, SIZE, "SELECT id FROM rooms WHERE name = '%s';", name);
 
     PGresult *result = executeQuery(query, conn, clientSocket);
@@ -138,7 +138,7 @@ char query[SIZE];
 
     PGresult *result = executeQuery(query, conn, clientSocket);
     if (result)
-    {   printf("\nregistrazione eseguita");
+    { //  printf("\nregistrazione eseguita");
         send(clientSocket, "ok\n", strlen("ok\n"), 0);
         PQclear(result);
     }
@@ -152,7 +152,7 @@ char query[SIZE];
 
     PGresult *result = executeQuery(query, conn, clientSocket);
     if (result)
-    {   printf("\nrequest deleted");
+    {  // printf("\nrequest deleted");
         send(clientSocket, "ok\n", strlen("ok\n"), 0);
         PQclear(result);
     }
@@ -165,7 +165,7 @@ char query[SIZE];
 
     PGresult *result = executeQuery(query, conn, clientSocket);
     if (result)
-    {   printf("\nrequest accepted");
+    {  // printf("\nrequest accepted");
         send(clientSocket, "ok\n", strlen("ok\n"), 0);
         PQclear(result);
     }
@@ -178,7 +178,7 @@ char query[SIZE];
 
     PGresult *result = executeQuery(query, conn, clientSocket);
     if (result)
-    {   printf("\nrichiesta inviata");
+    {  // printf("\nrichiesta inviata");
         send(clientSocket, "ok\n", strlen("ok\n"), 0);
         PQclear(result);
     }
@@ -192,7 +192,7 @@ char query[SIZE];
 
     PGresult *result = executeQuery(query, conn, clientSocket);
     if (result)
-    {   printf("\nstanza creata");
+    {  // printf("\nstanza creata");
         send(clientSocket, "ok\n", strlen("ok\n"), 0);
         PQclear(result);
     }
@@ -205,7 +205,7 @@ char query[SIZE];
 
     PGresult *result = executeQuery(query, conn, clientSocket);
     if (result)
-    {   printf("\nmessaggio inviato");
+    {  // printf("\nmessaggio inviato");
         send(clientSocket, "ok\n", strlen("ok\n"), 0);
         PQclear(result);
     }
@@ -218,7 +218,7 @@ char query[SIZE];
 
     PGresult *result = executeQuery(query, conn, clientSocket);
     if (result)
-    {   printf("\nutente inserito");
+    {  // printf("\nutente inserito");
         send(clientSocket, "ok\n", strlen("ok\n"), 0);
         PQclear(result);
     }
@@ -431,7 +431,7 @@ void handleClient(int clientSocket, struct sockaddr_in clientAddr, PGconn *conn)
     // Ottieni l'indirizzo IP del client
     char clientIP[INET_ADDRSTRLEN];
     inet_ntop(AF_INET, &(clientAddr.sin_addr), clientIP, INET_ADDRSTRLEN);
-    printf("\nClient connected: %s\n", clientIP);
+   // printf("\nClient connected: %s\n", clientIP);
 
     while ((bytesRead = recv(clientSocket, buffer, SIZE, 0)) > 0)
     {
@@ -454,7 +454,7 @@ void handleClient(int clientSocket, struct sockaddr_in clientAddr, PGconn *conn)
 
     if (bytesRead == 0)
     {
-        printf("\nClient disconnected: %s\n", clientIP);
+     //   printf("\nClient disconnected: %s\n", clientIP);
     }
     else if (bytesRead == -1)
     {
