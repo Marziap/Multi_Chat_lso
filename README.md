@@ -6,7 +6,7 @@ At the moment the server is on an anstance of AWS EC2 whicj is turned off to sta
 ### Server
 1. Download the libpq-dev with "sudo apt-get install libpq-dev"
 2. Compile the file server.c with "gcc -o server server.c -lpq"
-3. start the server with "./server"
+3. Start the server with "./server"
 
 ### Client
 4. In the android studio client, in the class User at row 13 change the host from the EC2 one to "localhost"
