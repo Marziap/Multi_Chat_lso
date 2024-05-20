@@ -15,7 +15,7 @@ At the moment the server is on an anstance of AWS EC2 which is turned off to sta
 ### Figma
 Click [here](https://www.figma.com/proto/M0RoN6CjIb358u1pV8Ur6L?page-id=0%3A1&type=design&node-id=0-1&t=CjQleUoEpKAEMq9a-0&scaling=scale-down&starting-point-node-id=130%3A953) the see the Figma prototype
 
-### Documentatin
+### Documentation
 You can find the documentation [here](https://github.com/Marziap/Multi_Chat_lso/blob/master/documentation/documentation.pdf)
 
 :)
